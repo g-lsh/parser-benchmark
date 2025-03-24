@@ -32,6 +32,9 @@ async fn fetch_and_process_html(url: &str) -> Result<Duration, CustomError> {
         bytes::Bytes::from(data)
     };
 
+    println!("Body size: {} bytes", resp.len());
+    println!("Body size: {:.2} MB", resp.len() as f64 / 1024.0 / 1024.0);
+
     let start_cpu = get_cpu_time();
 
     // Process HTML with streaming parser
