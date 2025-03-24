@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { parseHTML } = require('linkedom');
+const {readFile} = require("node:fs").promises;
 
 async function parsePage() {
     const arg = process.argv[2];
@@ -15,12 +16,13 @@ async function parsePage() {
         if (arg.startsWith("https://")) {
             const res = await fetch(arg);
             body = await res.text();
-            if (!response.ok) {
-                throw new Error(`Failed to fetch page: ${response.statusText}`);
+            if (!res.ok) {
+                throw new Error(`Failed to fetch page: ${res.statusText}`);
             }
         } else {
-            body = await fs.readFile(arg, "utf-8");
+            body = await readFile(arg, "utf-8");
         }
+
 
         const startTime = performance.now();
         const { document } = parseHTML(body);
